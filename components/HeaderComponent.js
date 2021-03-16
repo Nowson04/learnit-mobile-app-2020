@@ -16,6 +16,9 @@ export default class HeaderComponent extends React.Component
     render() {
         return(
             <Header
+                containerStyle={{ 
+                    backgroundColor: '#0099ff'
+                }}
                 leftComponent={{ icon: 'menu', color: '#fff' }}
                 centerComponent={{ text: 'Moja aplikacja', style: { color: '#fff' } }}
                 rightComponent={{ icon: 'search', color: '#fff', onPress: this.triggerModal }}

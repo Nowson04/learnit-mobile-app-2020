@@ -1,47 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import * as Location from 'expo-location';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 const axios = require('axios').default;
 
-function getCityByLocation(lat, lon) {
-    axios.get('http://api.openweathermap.org/data/2.5/weather', {
-        params: {
-            lat: lat,
-            lon: lon,
-            appid: 'd16977e36c39af18ea3cde72eb7dd415'
-        }
-    })
-    .then((res) => {
-        console.log(res.data);
-    })
-    .catch((err) => {
-        console.log(err);
-    });
-}
+export default class LocationComponent extends React.Component
+{
+    constructor(props) {
+        super(props);
 
-export default function LocationComponent() {
-    const [location, setLocation] = useState(null);
-    const [errorMsg, setErrorMsg] = useState(null);
+        this.getCityByLocation = this.getCityByLocation.bind(this);
+    }
 
-    useEffect(() => {
+    getCityByLocation(lat, lon) {
+        axios.get('http://api.openweathermap.org/data/2.5/weather', {
+            params: {
+                lat: lat,
+                lon: lon,
+                appid: 'd16977e36c39af18ea3cde72eb7dd415'
+            }
+        })
+        .then((res) => {
+            console.log(res.data);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+
+    componentDidMount() {
         (async () => {
             let {status} = await Location.requestPermissionsAsync();
+            this.props.changeLocationPermission(status);
 
-            console.log(status);
             if(status == 'granted') {
                 let location = await Location.getCurrentPositionAsync({});
-                setLocation(location);
-                getCityByLocation(location.coords.latitude, location.coords.longitude);
+                this.props.changeLocation(location);
             }
-        })()
-    }, []);
+        })();
+    }
 
-    let loc = JSON.stringify(location);
-
-    return (
-        <View>
-            {/*<Text>{location.coords.latitude}</Text>
-            <Text>{location.coords.longitude}</Text>*/}
-        </View>
-    );
+    render() {
+        return (
+            <View></View>
+        )
+    }
 }
