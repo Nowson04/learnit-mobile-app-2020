@@ -9,6 +9,7 @@ export default class LocationComponent extends React.Component
         super(props);
 
         this.getCityByLocation = this.getCityByLocation.bind(this);
+        this.getByCurrentLocation = this.getByCurrentLocation.bind(this);
     }
 
     getCityByLocation(lat, lon) {
@@ -20,11 +21,15 @@ export default class LocationComponent extends React.Component
             }
         })
         .then((res) => {
-            console.log(res.data);
+            return res.data;
         })
         .catch((err) => {
             console.log(err);
         });
+    }
+
+    getByCurrentLocation() {
+        console.log(this.props)
     }
 
     componentDidMount() {

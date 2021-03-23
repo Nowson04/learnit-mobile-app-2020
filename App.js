@@ -5,11 +5,12 @@ import HeaderComponent from './components/HeaderComponent';
 import LocationComponent from './components/LocationComponent';
 import SearcherComponent from './components/SearcherComponent';
 import MainComponent from './components/MainComponent';
+import { TouchableHighlightBase } from 'react-native';
 
 export default class App extends React.Component
 {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             modalVisible: false,
@@ -20,6 +21,7 @@ export default class App extends React.Component
         this.changeModalVisibility = this.changeModalVisibility.bind(this);
         this.changeLocationPermission = this.changeLocationPermission.bind(this);
         this.changeLocation = this.changeLocation.bind(this);
+        //this.getByCurrentLocation = this.getByCurrentLocation.bind(this);
     }
 
     changeModalVisibility(val) {
