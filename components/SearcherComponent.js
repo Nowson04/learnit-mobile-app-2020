@@ -20,7 +20,7 @@ export default class SearcherComponent extends React.Component
     render() {
         return (
             <View>
-                <Modal style={styles.modalView}
+                <Modal
                     animationType="slide"
                     transparent={true}
                     visible={this.props.modalVisible}
@@ -28,28 +28,33 @@ export default class SearcherComponent extends React.Component
                         this.props.changeModalVisibility(false);
                     }}
                 >
-                    <View style={styles.modalBox}>
-                        <View style={styles.modalBoxLocation}>
-                            <Pressable onPress={() => this.props.getByCurrentLocation()}>
-                                <Icon name='map' color="#fff"></Icon>
-                            </Pressable>
+                    <View style={styles.modalBoxContainer}>
+                        <View style={styles.modalBoxHeader}>
+                            <View style={styles.modalFlexContainer}>
+                                <View style={styles.modalBoxLocation}>
+                                    <Pressable onPress={() => this.props.getByCurrentLocation()}>
+                                        <Icon name='map' color="#fff"></Icon>
+                                    </Pressable>
+                                </View>
+
+                                <View style={styles.modalBoxInput}>
+                                    <TextInput
+                                        onChangeText={this.currentCity}
+                                        placeholder="Wpisz miejścowość"
+                                    ></TextInput>
+                                </View>
+
+                                <View style={styles.modalBoxClose}>
+                                    <Pressable onPress={() => this.props.changeModalVisibility(false)}>
+                                        <Icon name='close' color="#fff"></Icon>
+                                    </Pressable>
+                                </View>
+                            </View>
                         </View>
 
-                        <View style={styles.modalBoxInput}>
-                            <TextInput
-                                onChangeText={this.currentCity}
-                                placeholder="Wpisz miejścowość"
-                            ></TextInput>
-                        </View>
+                        <View style={styles.modalBoxContent}>
 
-                        <View style={styles.modalBoxClose}>
-                            <Pressable onPress={() => this.props.changeModalVisibility(false)}>
-                                <Icon name='close' color="#fff"></Icon>
-                            </Pressable>
                         </View>
-
-                    </View>
-                    <View style={styles.modalContentView}>
                     </View>
                 </Modal>
             </View>
@@ -58,33 +63,34 @@ export default class SearcherComponent extends React.Component
 }
 
 const styles = StyleSheet.create({
-    modalView: {
-        flex: 1,
-        marginTop: 44
-    },
-    modalBox: {
-        //flex: 1,
-        //flexDirection: "row",
-        //flexWrap: "wrap",
-        //flexGrow: 4,
-        margin: 50,
+    modalBoxContainer: {
         backgroundColor: "#0099ff",
-        borderRadius: 5,
-        padding: 10,
+        height: "90%",
+        margin: "10%",
+        borderRadius: 5
+    },
+    modalBoxHeader: {
+        height: "5%"
+    },
+    modalFlexContainer: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
     },
     modalBoxLocation: {
-        //alignSelf: "flex-end"
+        width: "13%"
     },
     modalBoxInput: {
-        justifyContent: "center",
-        height: 40,
-        width: "auto",
-        borderWidth: 1
+        borderWidth: 1,
+        borderRadius: 3,
+        borderColor: "#c2c2c2",
+        width: "74%"
     },
     modalBoxClose: {
-        alignItems: "flex-end",
+        width: "13%"
     },
-    modalContentView: {
-        alignItems: "center",
+    modalBoxContent: {
+
     }
 });
