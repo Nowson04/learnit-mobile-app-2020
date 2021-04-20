@@ -18,7 +18,17 @@ export default class App extends React.Component
             location: null
         };
 
+        this.api = {
+            url: 'http://api.openweathermap.org/data/2.5/',
+            key: 'd16977e36c39af18ea3cde72eb7dd415'
+        }
+
         this.changeModalVisibility = this.changeModalVisibility.bind(this);
+
+        this.getCityByLocation = this.getCityByLocation.bind(this);
+        this.getCitiesByLocation = this.getCitiesByLocation.bind(this);
+        this.getCityByName = this.getCityByName.bind(this);
+        this.getCityById = this.getCityById.bind(this);
     }
 
     changeModalVisibility(val) {
@@ -30,14 +40,69 @@ export default class App extends React.Component
     };
 
     getCityByLocation(lat, lon) {
-        axios.get('http://api.openweathermap.org/data/2.5/weather', {
+        axios.get(this.api.url + 'weather', {
             params: {
                 lat: lat,
                 lon: lon,
-                appid: 'd16977e36c39af18ea3cde72eb7dd415'
+                lang: 'pl',
+                appid: this.api.key
             }
         })
         .then((res) => {
+            console.log(res.data);
+            return res.data;
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+
+    getCitiesByLocation(lat, lon) {
+        axios.get(`${this.api.url}find`, {
+            params: {
+                lat: lat,
+                lon: lon,
+                cnt: 10,
+                lang: 'pl',
+                appid: this.api.key
+            }
+        })
+        .then((res) => {
+            console.log(res.data);
+            return res.data;
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+
+    getCityByName(name) {
+        axios.get(`${this.api.url}weather`, {
+            params: {
+                q: name,
+                lang: 'pl',
+                appid: this.api.key
+            }
+        })
+        .then((res) => {
+            console.log(res.data);
+            return res.data;
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+
+    getCityById(id) {
+        axios.get(`${this.api.url}weather`, {
+            params: {
+                id: id,
+                lang: 'pl',
+                appid: this.api.key
+            }
+        })
+        .then((res) => {
+            console.log(res.data);
             return res.data;
         })
         .catch((err) => {
