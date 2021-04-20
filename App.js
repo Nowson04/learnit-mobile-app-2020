@@ -58,7 +58,7 @@ export default class App extends React.Component
     }
 
     getCitiesByLocation(lat, lon) {
-        axios.get(`${this.api.url}find`, {
+        return axios.get(`${this.api.url}find`, {
             params: {
                 lat: lat,
                 lon: lon,
@@ -66,13 +66,6 @@ export default class App extends React.Component
                 lang: 'pl',
                 appid: this.api.key
             }
-        })
-        .then((res) => {
-            console.log(res.data);
-            return res.data;
-        })
-        .catch((err) => {
-            console.log(err);
         });
     }
 
@@ -123,8 +116,6 @@ export default class App extends React.Component
             if(status == 'granted') {
                 let location = await Location.getCurrentPositionAsync({});
 
-                console.log(location);
-
                 this.setState(() => {
                     return {
                         location: location
@@ -137,7 +128,7 @@ export default class App extends React.Component
     render() {
         return (
             <View style={styles.main}>
-                <SearcherComponent changeModalVisibility={(val) => this.changeModalVisibility(val)} modalVisible={this.state.modalVisible} />
+                <SearcherComponent changeModalVisibility={(val) => this.changeModalVisibility(val)} modalVisible={this.state.modalVisible} location={this.state.location} getCitiesByLocation={(lat, lon) => this.getCitiesByLocation(lat,lon)} />
                 <HeaderComponent changeModalVisibility={(val) => this.changeModalVisibility(val)} />
                 <MainComponent />
             </View>

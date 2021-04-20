@@ -1,6 +1,5 @@
 import React from 'react';
-import { TextInput } from 'react-native';
-import { View, Modal, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Modal, Text, Pressable, StyleSheet, FlatList,TextInput } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 export default class SearcherComponent extends React.Component
@@ -9,12 +8,25 @@ export default class SearcherComponent extends React.Component
         super(props);
 
         this.currentCity = NaN;
+        this.listRefresh = false;
         this.onChange = this.onChange.bind(this);
+        this.citiesList = [];
     }
 
     onChange(val) {
         this.currentCity = val;
         console.log(val);
+    }
+
+    getByCurrentLocation() {
+        this.props.getCitiesByLocation(this.props.location.coords.latitude, this.props.location.coords.longitude).then((res) => {
+            res.data.list.forEach(elem => {
+                //console.log(elem.name + " | " + elem.id + " | " + elem.coord.lat + " | " + elem.coord.lon);
+                this.citiesList.push({key: elem.name});
+            });
+            this.listRefresh = true;
+            console.log(this.citiesList);
+        });
     }
 
     render() {
@@ -32,7 +44,7 @@ export default class SearcherComponent extends React.Component
                         <View style={styles.modalBoxHeader}>
                             <View style={styles.modalFlexContainer}>
                                 <View style={styles.modalBoxLocation}>
-                                    <Pressable onPress={() => this.props.getByCurrentLocation()}>
+                                    <Pressable onPress={() => this.getByCurrentLocation()}>
                                         <Icon name='map' color="#fff"></Icon>
                                     </Pressable>
                                 </View>
@@ -53,7 +65,11 @@ export default class SearcherComponent extends React.Component
                         </View>
 
                         <View style={styles.modalBoxContent}>
-
+                            <FlatList
+                                data={this.citiesList}
+                                renderItem={({item}) => <Text>{item.key}</Text>}
+                                extraData={this.listRefresh}
+                            />
                         </View>
                     </View>
                 </Modal>
