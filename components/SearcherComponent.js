@@ -86,16 +86,17 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     modalBoxHeader: {
-        height: "5%"
+        height: "7%"
     },
     modalFlexContainer: {
         flex: 1,
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "center"
+        alignItems: "center",
+        marginTop: 15
     },
     modalBoxLocation: {
-        width: "13%"
+        width: "13%",
     },
     modalBoxInput: {
         borderWidth: 1,
@@ -107,6 +108,6 @@ const styles = StyleSheet.create({
         width: "13%"
     },
     modalBoxContent: {
-
+        marginTop: 15
     }
 });
