@@ -10,7 +10,11 @@ export default class SearcherComponent extends React.Component
         this.currentCity = NaN;
         this.listRefresh = false;
         this.onChange = this.onChange.bind(this);
-        this.citiesList = [];
+        this.citiesList = [
+            /*{
+                key: "ASD"
+            }*/
+        ];
     }
 
     onChange(val) {
@@ -20,13 +24,14 @@ export default class SearcherComponent extends React.Component
 
     getByCurrentLocation() {
         this.props.getCitiesByLocation(this.props.location.coords.latitude, this.props.location.coords.longitude).then((res) => {
-            res.data.list.forEach(elem => {
-                //console.log(elem.name + " | " + elem.id + " | " + elem.coord.lat + " | " + elem.coord.lon);
-                this.citiesList.push({key: elem.name});
-            });
+            this.citiesList = res.data.list;
             this.listRefresh = true;
-            console.log(this.citiesList);
+            //console.log(this.citiesList);
         });
+    }
+
+    clickOnValue(id) {
+        console.log(id);
     }
 
     render() {
@@ -51,13 +56,17 @@ export default class SearcherComponent extends React.Component
 
                                 <View style={styles.modalBoxInput}>
                                     <TextInput
-                                        onChangeText={this.currentCity}
+                                        //onChangeText={this.currentCity}
                                         placeholder="Wpisz miejścowość"
                                     ></TextInput>
                                 </View>
 
                                 <View style={styles.modalBoxClose}>
-                                    <Pressable onPress={() => this.props.changeModalVisibility(false)}>
+                                    <Pressable onPress={() => {
+                                        this.props.changeModalVisibility(false);
+                                        this.listRefresh = false;
+                                        //this.citiesList = [];
+                                    }}>
                                         <Icon name='close' color="#fff"></Icon>
                                     </Pressable>
                                 </View>
@@ -67,7 +76,13 @@ export default class SearcherComponent extends React.Component
                         <View style={styles.modalBoxContent}>
                             <FlatList
                                 data={this.citiesList}
-                                renderItem={({item}) => <Text>{item.key}</Text>}
+                                renderItem={({item}) => 
+                                    <Pressable onPress={() => {
+                                        this.clickOnValue(item.id);
+                                    }}>
+                                        <Text style={styles.modalBoxInputValue}>{item.name}</Text>
+                                    </Pressable>
+                                }
                                 extraData={this.listRefresh}
                             />
                         </View>
@@ -102,6 +117,10 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         borderColor: "#c2c2c2",
         width: "74%"
+    },
+    modalBoxInputValue: {
+        marginTop: "8%",
+        alignSelf: "center"
     },
     modalBoxClose: {
         width: "13%"
