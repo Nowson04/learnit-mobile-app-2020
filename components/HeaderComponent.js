@@ -1,5 +1,6 @@
 import React from 'react';
 import { Header } from 'react-native-elements';
+//import NavigationBar from 'react-native-navbar-color';
 
 export default class HeaderComponent extends React.Component
 {
@@ -7,6 +8,10 @@ export default class HeaderComponent extends React.Component
         super(props);
 
         this.triggerModal = this.triggerModal.bind(this);
+        this.bgColor = '#0099ff';
+
+        //console.log(NavigationBar.getAPILevel);
+        //NavigationBar.setColor(this.bgColor);
     }
 
     triggerModal() {
@@ -16,8 +21,8 @@ export default class HeaderComponent extends React.Component
     render() {
         return(
             <Header
-                containerStyle={{ 
-                    backgroundColor: '#0099ff'
+                containerStyle={{
+                    //backgroundColor: this.bgColor
                 }}
                 leftComponent={{ icon: 'menu', color: '#fff' }}
                 centerComponent={{ text: 'Moja aplikacja', style: { color: '#fff' } }}

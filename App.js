@@ -23,12 +23,19 @@ export default class App extends React.Component
             key: 'd16977e36c39af18ea3cde72eb7dd415'
         }
 
+        this.currentCity = 0;
+
         this.changeModalVisibility = this.changeModalVisibility.bind(this);
 
         this.getCityByLocation = this.getCityByLocation.bind(this);
         this.getCitiesByLocation = this.getCitiesByLocation.bind(this);
         this.getCityByName = this.getCityByName.bind(this);
         this.getCityById = this.getCityById.bind(this);
+        this.setCity = this.setCity.bind(this);
+    }
+
+    setCity(cityId) {
+        this.currentCity = cityId;
     }
 
     changeModalVisibility(val) {
@@ -87,19 +94,12 @@ export default class App extends React.Component
     }
 
     getCityById(id) {
-        axios.get(`${this.api.url}weather`, {
+        return axios.get(`${this.api.url}weather`, {
             params: {
                 id: id,
                 lang: 'pl',
                 appid: this.api.key
             }
-        })
-        .then((res) => {
-            console.log(res.data);
-            return res.data;
-        })
-        .catch((err) => {
-            console.log(err);
         });
     }
 
@@ -128,9 +128,20 @@ export default class App extends React.Component
     render() {
         return (
             <View style={styles.main}>
-                <SearcherComponent changeModalVisibility={(val) => this.changeModalVisibility(val)} modalVisible={this.state.modalVisible} location={this.state.location} getCitiesByLocation={(lat, lon) => this.getCitiesByLocation(lat,lon)} />
-                <HeaderComponent changeModalVisibility={(val) => this.changeModalVisibility(val)} />
-                <MainComponent />
+                <SearcherComponent
+                    changeModalVisibility={(val) => this.changeModalVisibility(val)}
+                    modalVisible={this.state.modalVisible}
+                    location={this.state.location}
+                    getCitiesByLocation={(lat, lon) => this.getCitiesByLocation(lat,lon)}
+                    setCity={(cityId) => this.setCity(cityId)}
+                />
+                <HeaderComponent
+                    changeModalVisibility={(val) => this.changeModalVisibility(val)}
+                />
+                <MainComponent
+                    getCityById={(id) => this.getCityById(id)}
+                    currentCity={this.currentCity}
+                />
             </View>
         );
     }

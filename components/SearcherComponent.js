@@ -24,9 +24,9 @@ export default class SearcherComponent extends React.Component
         });
     }
 
-    clickOnBoxContentValue(value) {
+    clickOnBoxContentValue(cityId) {
         this.closeModal();
-        console.log(value);
+        this.props.setCity(cityId);
     }
 
     closeModal() {
