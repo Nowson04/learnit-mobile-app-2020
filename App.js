@@ -15,15 +15,14 @@ export default class App extends React.Component
         this.state = {
             modalVisible: false,
             locationPermission: null,
-            location: null
+            location: null,
+            currentCity: 0
         };
 
         this.api = {
             url: 'http://api.openweathermap.org/data/2.5/',
-            key: 'd16977e36c39af18ea3cde72eb7dd415'
+            key: '8ea32bea1641e1d2a987988254d9d621'
         }
-
-        this.currentCity = 0;
 
         this.changeModalVisibility = this.changeModalVisibility.bind(this);
 
@@ -35,7 +34,11 @@ export default class App extends React.Component
     }
 
     setCity(cityId) {
-        this.currentCity = cityId;
+        this.setState(() => {
+            return {
+                currentCity: cityId
+            };
+        });
     }
 
     changeModalVisibility(val) {
@@ -140,7 +143,7 @@ export default class App extends React.Component
                 />
                 <MainComponent
                     getCityById={(id) => this.getCityById(id)}
-                    currentCity={this.currentCity}
+                    currentCity={this.state.currentCity}
                 />
             </View>
         );

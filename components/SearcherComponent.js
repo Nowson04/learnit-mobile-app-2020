@@ -54,7 +54,7 @@ export default class SearcherComponent extends React.Component
 
                                 <View style={styles.modalBoxInput}>
                                     <TextInput
-                                        onChangeText={this.currentCity}
+                                        //onChangeText={this.currentCity}
                                         placeholder="Wpisz miejścowość"
                                         style={styles.modalBoxInputTextInput}
                                     ></TextInput>
