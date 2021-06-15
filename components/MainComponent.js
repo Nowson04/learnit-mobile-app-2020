@@ -55,8 +55,8 @@ export default class MainComponent extends React.Component
     render() {
         if (this.state.weatherData == null) {
             return (
-                <View>
-                    <Text>Wybierz miejscowość</Text>
+                <View style={styles.selectCityBox}>
+                    <Text style={styles.selectCityText}>Wybierz miejscowość</Text>
                 </View>
             )
         } else {
@@ -75,38 +75,46 @@ export default class MainComponent extends React.Component
                         
                         <View style={styles.weatherDataBot}>
                             <View style={styles.weatherDataFlex}>
-                                <Text>
-                                    Temp: { this.kelvinToCelsius(this.state.weatherData.main.temp) }
+                                <Text style={styles.weatherDataFlexText}>
+                                    { this.kelvinToCelsius(this.state.weatherData.main.temp) }{"\n\n"}
+                                    Temperatura
                                 </Text>
-                                <Text>
-                                    Odczuwalna: { this.kelvinToCelsius(this.state.weatherData.main.feels_like) }
+                                <Text style={styles.weatherDataFlexText}>
+                                    { this.kelvinToCelsius(this.state.weatherData.main.feels_like) }{"\n\n"}
+                                    Temperatura Odczuwalna
                                 </Text>
                             </View>
                             
                             <View style={styles.weatherDataFlex}>
-                                <Text>
-                                    Ciśnienie: { this.state.weatherData.main.pressure }hPa
+                                <Text style={styles.weatherDataFlexText}>
+                                    { this.state.weatherData.main.pressure }hPa{"\n\n"}
+                                    Ciśnienie
                                 </Text>
-                                <Text>
-                                    Wilgotność: { this.state.weatherData.main.humidity }%
+                                <Text style={styles.weatherDataFlexText}>
+                                    { this.state.weatherData.main.humidity }%{"\n\n"}
+                                    Wilgotność
                                 </Text>
                             </View>
 
                             <View style={styles.weatherDataFlex}>
-                                <Text>
-                                    Widoczność: { this.state.weatherData.visibility / 100 }%
+                                <Text style={styles.weatherDataFlexText}>
+                                    { this.state.weatherData.visibility / 100 }%{"\n\n"}
+                                    Widoczność
                                 </Text>
-                                <Text>
-                                    Chmury: { this.state.weatherData.clouds.all }%
+                                <Text style={styles.weatherDataFlexText}>
+                                    { this.state.weatherData.clouds.all }%{"\n\n"}
+                                    Zachmurzenie
                                 </Text>
                             </View>
                             
                             <View style={styles.weatherDataFlex}>
-                                <Text>
-                                    Wiatr: { this.state.weatherData.wind.speed }m/s
+                                <Text style={styles.weatherDataFlexText}>
+                                    { this.state.weatherData.wind.speed }m/s{"\n\n"}
+                                    Prędkość wiatru
                                 </Text>
-                                <Text>
-                                    Kierunek: { this.getWindDirection(this.state.weatherData.wind.deg) }
+                                <Text style={styles.weatherDataFlexText}>
+                                    { this.getWindDirection(this.state.weatherData.wind.deg) }{"\n\n"}
+                                    Kierunek Wiatru
                                 </Text>
                             </View>
                         </View>
@@ -118,28 +126,40 @@ export default class MainComponent extends React.Component
 }
 
 const styles = StyleSheet.create({
-    weather: {
-    },
-    weatherDataTop: {
-        marginTop: "10%",
+    selectCityBox: {
         flex: 1,
         alignItems: "center",
-        height: "50%"
+        justifyContent: 'center',
+    },
+    selectCityText: {
+        fontSize: 45,
+    },
+    weather: {
+    },
+    weatherDataTop:  {
+        marginTop: "30%",
     },
     cityName: {
-        fontSize: 30
+        fontSize: 40,
+        textAlign: "center"
     },
     description: {
-        fontSize: 20
+        fontSize: 30,
+        textAlign: "center"
     },
     weatherDataBot: {
-        //borderTopWidth: 1,
-        //marginTop: "30%"
+        marginTop: "30%",
+        backgroundColor: "#2f2f2f"
     },
     weatherDataFlex: {
-        //flex: 1,
-        //flexDirection: "row",
-        //justifyContent: "space-between",
-        borderTopWidth: 1,
+        padding: 20,
+        display: "flex",
+        flexDirection: "row",
+        borderTopWidth: 2,
+    },
+    weatherDataFlexText: {
+        fontSize: 20,
+        width: "50%",
+        textAlign: "center",
     }
 });
