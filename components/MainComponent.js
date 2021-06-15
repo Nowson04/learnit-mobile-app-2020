@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, Text, Platform } from 'react-native';
+import { View, ScrollView, Text, Platform, StyleSheet } from 'react-native';
 
 export default class MainComponent extends React.Component
 {
@@ -18,11 +18,30 @@ export default class MainComponent extends React.Component
         return parseInt(kelvinValue - this.kelvinCelsiusValue) + "°C";
     }
 
+    getWindDirection(value) {
+        if(value >= 22.6 && value <= 67.5 ) {
+            return "Północny Wschód";
+        } else if(value >= 67.6 && value <= 112.5) {
+            return "Wschód";
+        } else if(value >= 112.6 && value <= 157.5) {
+            return "Południowy Wschód";
+        } else if(value >= 157.6 && value <= 202.5) {
+            return "Południe"
+        } else if(value >= 202.6 && value <= 247.5) {
+            return "Południowy Zachód";
+        } else if(value >= 247.6 && value <= 292.5) {
+            return "Zachód";
+        } else if(value >= 292.6 && value <= 337.5) {
+            return "Północny Zachód";
+        } else {
+            return "Północ";
+        }
+    }
+
     componentDidUpdate() {
         if(this.props.currentCity != 0 && this.props.currentCity != this.state.currentCityId) {
             this.props.getCityById(this.props.currentCity)
             .then((res) => {
-                console.log(res.data);
                 this.setState(() => {
                     return {
                         weatherData: res.data,
@@ -45,17 +64,13 @@ export default class MainComponent extends React.Component
                 <View>
                     <View style={styles.weather}>
                         <View style={styles.weatherDataTop}>
-                            <View style={styles.cityName}>
-                                <Text>
-                                    { this.state.weatherData.name }
-                                </Text>
-                            </View>
+                            <Text style={styles.cityName}>
+                                { this.state.weatherData.name }
+                            </Text>
 
-                            <View style={styles.description}>
-                                <Text>
-                                    { this.state.weatherData.weather[0].description }
-                                </Text>
-                            </View>
+                            <Text style={styles.description}>
+                                { this.state.weatherData.weather[0].description }
+                            </Text>
                         </View>
                         
                         <View style={styles.weatherDataBot}>
@@ -79,19 +94,19 @@ export default class MainComponent extends React.Component
 
                             <View style={styles.weatherDataFlex}>
                                 <Text>
-                                    Widoczność{ this.state.weatherData.visibility / 100 }%
+                                    Widoczność: { this.state.weatherData.visibility / 100 }%
                                 </Text>
                                 <Text>
                                     Chmury: { this.state.weatherData.clouds.all }%
                                 </Text>
                             </View>
                             
-                            <View style={styles.weatherDataWindFlex}>
+                            <View style={styles.weatherDataFlex}>
                                 <Text>
                                     Wiatr: { this.state.weatherData.wind.speed }m/s
                                 </Text>
                                 <Text>
-                                    Kierunek: { this.state.weatherData.wind.deg }
+                                    Kierunek: { this.getWindDirection(this.state.weatherData.wind.deg) }
                                 </Text>
                             </View>
                         </View>
@@ -101,3 +116,30 @@ export default class MainComponent extends React.Component
         }
     }
 }
+
+const styles = StyleSheet.create({
+    weather: {
+    },
+    weatherDataTop: {
+        marginTop: "10%",
+        flex: 1,
+        alignItems: "center",
+        height: "50%"
+    },
+    cityName: {
+        fontSize: 30
+    },
+    description: {
+        fontSize: 20
+    },
+    weatherDataBot: {
+        //borderTopWidth: 1,
+        //marginTop: "30%"
+    },
+    weatherDataFlex: {
+        //flex: 1,
+        //flexDirection: "row",
+        //justifyContent: "space-between",
+        borderTopWidth: 1,
+    }
+});
